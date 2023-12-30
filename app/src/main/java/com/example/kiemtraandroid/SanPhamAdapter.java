@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamViewHolder> {
+
     private Context context;
     private List<SanPham> sanPhamList;
     private SanPhamDAO sanPhamDAO;
@@ -43,20 +44,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
         holder.imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    int productId = sanPhamList.get(adapterPosition).getMaSP();
-                    boolean isDeleted = sanPhamDAO.deleteSanPham(productId);
-
-                    if (isDeleted) {
-                        sanPhamList.remove(adapterPosition);
-                        notifyItemRemoved(adapterPosition);
-                        notifyItemRangeChanged(adapterPosition, sanPhamList.size());
-                        Toast.makeText(context, "Sản phẩm đã bị xóa", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                deleteItem(position);
             }
         });
     }
@@ -78,6 +66,20 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             imageDelete = itemView.findViewById(R.id.imageDelete);
         }
     }
+
+    public void deleteItem(int position) {
+        int productId = sanPhamList.get(position).getMaSP();
+        boolean isDeleted = sanPhamDAO.deleteSanPham(productId);
+
+        if (isDeleted) {
+            sanPhamList.remove(position);
+            notifyItemRemoved(position);
+            Toast.makeText(context, "Sản phẩm đã bị xóa", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
+
 
 
