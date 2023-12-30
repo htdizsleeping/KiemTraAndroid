@@ -12,9 +12,11 @@ import java.util.ArrayList;
 
 public class SanPhamDAO {
     private DbHelper dbHelper;
+    private SQLiteDatabase database;
 
     public SanPhamDAO(Context context) {
         dbHelper = new DbHelper(context);
+        database = dbHelper.getWritableDatabase();
     }
 
     public ArrayList<SanPham> getListSanPham() {
@@ -51,6 +53,20 @@ public class SanPhamDAO {
         return check != -1;
     }
 
+    // Method to insert a new SanPham object into your data source (e.g., a database)
+    public void insertSanPham(SanPham sanPham) {
+        ContentValues values = new ContentValues();
+        values.put("ma_sp", sanPham.getMaSP());
+        values.put("ten_sp", sanPham.getTenSP());
+        // Add other values similarly for Price, ImageName, etc.
+
+        long newRowId = database.insert("sanpham_table", null, values);
+        if (newRowId != -1) {
+            // Insertion was successful
+        } else {
+            // Insertion failed
+        }
+    }
     public boolean deleteSanPham(int maSP) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int deletedRows = db.delete("SanPham", "MaSP=?", new String[]{String.valueOf(maSP)});

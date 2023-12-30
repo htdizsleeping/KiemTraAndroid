@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamViewHolder> {
 
+    private ArrayList<SanPham> dataList;
     private Context context;
     private List<SanPham> sanPhamList;
     private SanPhamDAO sanPhamDAO;
@@ -79,7 +81,11 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             Toast.makeText(context, "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
         }
     }
+    // Method to update the dataset in the adapter with new data
+    public void updateData(ArrayList<SanPham> newDataList) {
+        this.dataList = newDataList;
+        notifyDataSetChanged(); // Notify RecyclerView that the dataset has changed
+    }
 }
-
 
 
